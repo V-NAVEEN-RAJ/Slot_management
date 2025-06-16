@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://slot-management-iota.vercel.app/", // Replace with your actual frontend domain
+      "https://slot-management-iota.vercel.app", // Replace with your actual frontend domain
       process.env.FRONTEND_URL,
     ],
     credentials: true,
