@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://slot-management-iota.vercel.app"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://slot-management-cn.onrender.com"
 
 class ApiClient {
   private getAuthHeaders() {
