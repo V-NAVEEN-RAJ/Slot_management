@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://your-backend-url.onrender.com/api"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://slot-management-cn.onrender.com"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
