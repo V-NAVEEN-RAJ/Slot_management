@@ -12,8 +12,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://127.0.0.1:3000",
-      // "https://your-frontend-domain.vercel.app", // Replace with your actual frontend domain
+      "https://slot-management-iota.vercel.app/", // Replace with your actual frontend domain
       process.env.FRONTEND_URL,
     ],
     credentials: true,
@@ -622,7 +621,7 @@ const startServer = async () => {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Server running on port ${PORT}`)
-    // console.log(`📡 API available at http://localhost:${PORT}/api`)
+    // console.log(`📡 API available at https://slot-management-cn.onrender.com`)
     // console.log(`🏥 Health check: http://localhost:${PORT}/api/health`)
     // console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`)
   })
