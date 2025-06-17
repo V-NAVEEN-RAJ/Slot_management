@@ -20,7 +20,7 @@ interface Statistics {
   }>
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://slot-management-cn.onrender.com/api"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://slot-management-cn.onrender.com"
 
 export default function Dashboard() {
   const [selectedYear, setSelectedYear] = useState<string>("")
