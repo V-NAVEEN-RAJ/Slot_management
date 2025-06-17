@@ -69,6 +69,10 @@ const authenticateToken = (req, res, next) => {
   })
 }
 
+app.post("/auth/login", (req, res) => {
+  console.log("⚠️ Frontend hit wrong route: /auth/login");
+  res.status(404).json({ message: "Use /api/auth/login instead" });
+});
 // Root route
 app.get("/", (req, res) => {
   res.json({
