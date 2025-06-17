@@ -57,7 +57,7 @@ export default function Dashboard() {
     try {
       setLoading(true)
       const token = localStorage.getItem("token")
-      const response = await fetch(`${API_BASE_URL}/statistics/${selectedYear}`, {
+      const response = await fetch(`${API_BASE_URL}/api/statistics/${selectedYear}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
