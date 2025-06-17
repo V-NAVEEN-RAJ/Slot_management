@@ -238,57 +238,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Detailed Statistics */}
-                {statistics.totalCourses > 0 && (
-                  <div className="bg-white rounded-lg shadow-md">
-                    <div className="p-6 border-b">
-                      <h3 className="text-lg font-semibold flex items-center">
-                        <TrendingUp className="h-5 w-5 mr-2 text-blue-600" />
-                        Course Overview for {selectedYear}
-                      </h3>
-                    </div>
-                    <div className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {statistics.courses.map((course) => (
-                          <div key={course.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <h4 className="font-medium text-gray-900 mb-2">{course.name}</h4>
-                            <p className="text-sm text-gray-600 mb-2">{course.description}</p>
-                            <div className="flex items-center text-sm text-blue-600">
-                              <Users className="h-4 w-4 mr-1" />
-                              {course.batchCount} {course.batchCount === 1 ? "Batch" : "Batches"}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Progress Summary */}
-                {statistics.totalStudents > 0 && (
-                  <div className="bg-white rounded-lg shadow-md p-6">
-                    <h3 className="text-lg font-semibold mb-4">Fee Collection Progress</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <div className="flex justify-between text-sm mb-1">
-                          <span>Fees Collected</span>
-                          <span>{Math.round((statistics.paidStudents / statistics.totalStudents) * 100)}%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-green-600 h-2 rounded-full"
-                            style={{
-                              width: `${(statistics.paidStudents / statistics.totalStudents) * 100}%`,
-                            }}
-                          ></div>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500 mt-1">
-                          <span>{statistics.paidStudents} students paid</span>
-                          <span>{statistics.unpaidStudents} pending</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                
               </div>
             ) : (
               <div className="bg-white rounded-lg shadow-md p-6">
