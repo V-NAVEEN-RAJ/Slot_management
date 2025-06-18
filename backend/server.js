@@ -14,6 +14,8 @@ app.use(
       "http://localhost:3000",
       "https://slot-management-iota.vercel.app",// Replace with your actual frontend domain
       "https://slot-management-git-main-naveen-raj-vs-projects.vercel.app",
+      "slot-management-iota.vercel.app",
+      "slot-management-awjo03d1k-naveen-raj-vs-projects.vercel.app",
       process.env.FRONTEND_URL,
     ],
     credentials: true,
