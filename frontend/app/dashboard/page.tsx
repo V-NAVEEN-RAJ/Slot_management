@@ -101,7 +101,7 @@ export default function Dashboard() {
               <h1 className="text-xl font-semibold text-gray-900">Slot Booking System</h1>
               {admin && (
                 <span className="text-sm text-gray-500">
-                  Welcome, {admin.username} ({admin.role})
+                  Welcome, {admin.username}
                 </span>
               )}
             </div>
@@ -126,7 +126,7 @@ export default function Dashboard() {
                   <Filter className="h-4 w-4 inline mr-1" />
                   Filter Students
                 </button>
-                <button
+                {/* <button
                   onClick={() => setCurrentView("admin")}
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     currentView === "admin" ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-100"
@@ -134,7 +134,7 @@ export default function Dashboard() {
                 >
                   <Settings className="h-4 w-4 inline mr-1" />
                   Admin
-                </button>
+                </button> */}
               </div>
               <button
                 onClick={handleLogout}
