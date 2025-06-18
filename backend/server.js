@@ -625,9 +625,6 @@ const startServer = async () => {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Server running on port ${PORT}`)
-    // console.log(`📡 API available at https://slot-management-cn.onrender.com`)
-    // console.log(`🏥 Health check: http://localhost:${PORT}/api/health`)
-    // console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`)
   })
 }
 

@@ -11,7 +11,7 @@ class ApiClient {
 
   // Statistics API method
   async getStatistics(year: string) {
-    const response = await fetch(`${API_BASE_URL}/statistics/${year}`, {
+    const response = await fetch(`${API_BASE_URL}/api/statistics/${year}`, {
       headers: this.getAuthHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch statistics")
@@ -20,7 +20,7 @@ class ApiClient {
 
   // Admin API methods
   async getAdmins() {
-    const response = await fetch(`${API_BASE_URL}/admins`, {
+    const response = await fetch(`${API_BASE_URL}/api/admins`, {
       headers: this.getAuthHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch admins")
@@ -38,7 +38,7 @@ class ApiClient {
   }
 
   async updatePassword(adminId: string, passwords: { currentPassword: string; newPassword: string }) {
-    const response = await fetch(`${API_BASE_URL}/admins/${adminId}/password`, {
+    const response = await fetch(`${API_BASE_URL}/api/admins/${adminId}/password`, {
       method: "PUT",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(passwords),
@@ -48,7 +48,7 @@ class ApiClient {
   }
 
   async deleteAdmin(adminId: string) {
-    const response = await fetch(`${API_BASE_URL}/admins/${adminId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/admins/${adminId}`, {
       method: "DELETE",
       headers: this.getAuthHeaders(),
     })
@@ -58,7 +58,7 @@ class ApiClient {
 
   // Student Filter API method
   async getStudentsByFilter(courseId: string) {
-    const response = await fetch(`${API_BASE_URL}/students/filter/${courseId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/students/filter/${courseId}`, {
       headers: this.getAuthHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch filtered students")
@@ -67,7 +67,7 @@ class ApiClient {
 
   // Course API methods
   async getCourses(year: string) {
-    const response = await fetch(`${API_BASE_URL}/courses/${year}`, {
+    const response = await fetch(`${API_BASE_URL}/api/courses/${year}`, {
       headers: this.getAuthHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch courses")
@@ -75,7 +75,7 @@ class ApiClient {
   }
 
   async createCourse(course: { name: string; description: string; year: string }) {
-    const response = await fetch(`${API_BASE_URL}/courses`, {
+    const response = await fetch(`${API_BASE_URL}/api/courses`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(course),
@@ -85,7 +85,7 @@ class ApiClient {
   }
 
   async updateCourse(id: string, course: { name: string; description: string }) {
-    const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/courses/${id}`, {
       method: "PUT",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(course),
@@ -95,7 +95,7 @@ class ApiClient {
   }
 
   async deleteCourse(id: string) {
-    const response = await fetch(`${API_BASE_URL}/courses/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/courses/${id}`, {
       method: "DELETE",
       headers: this.getAuthHeaders(),
     })
@@ -105,7 +105,7 @@ class ApiClient {
 
   // Batch API methods
   async getBatches(courseId: string) {
-    const response = await fetch(`${API_BASE_URL}/batches/${courseId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/batches/${courseId}`, {
       headers: this.getAuthHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch batches")
@@ -113,7 +113,7 @@ class ApiClient {
   }
 
   async createBatch(batch: { name: string; description: string; status: string; courseId: string }) {
-    const response = await fetch(`${API_BASE_URL}/batches`, {
+    const response = await fetch(`${API_BASE_URL}/api/batches`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(batch),
@@ -123,7 +123,7 @@ class ApiClient {
   }
 
   async updateBatch(id: string, batch: { name: string; description: string; status: string }) {
-    const response = await fetch(`${API_BASE_URL}/batches/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/batches/${id}`, {
       method: "PUT",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(batch),
@@ -133,7 +133,7 @@ class ApiClient {
   }
 
   async deleteBatch(id: string) {
-    const response = await fetch(`${API_BASE_URL}/batches/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/batches/${id}`, {
       method: "DELETE",
       headers: this.getAuthHeaders(),
     })
@@ -143,7 +143,7 @@ class ApiClient {
 
   // Student API methods
   async getStudents(batchId: string) {
-    const response = await fetch(`${API_BASE_URL}/students/${batchId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/students/${batchId}`, {
       headers: this.getAuthHeaders(),
     })
     if (!response.ok) throw new Error("Failed to fetch students")
@@ -151,7 +151,7 @@ class ApiClient {
   }
 
   async createStudent(student: any) {
-    const response = await fetch(`${API_BASE_URL}/students`, {
+    const response = await fetch(`${API_BASE_URL}/api/students`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(student),
@@ -161,7 +161,7 @@ class ApiClient {
   }
 
   async createStudentsBulk(students: any[]) {
-    const response = await fetch(`${API_BASE_URL}/students/bulk`, {
+    const response = await fetch(`${API_BASE_URL}/api/students/bulk`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify({ students }),
@@ -171,7 +171,7 @@ class ApiClient {
   }
 
   async updateStudent(id: string, student: any) {
-    const response = await fetch(`${API_BASE_URL}/students/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/students/${id}`, {
       method: "PUT",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(student),
@@ -181,7 +181,7 @@ class ApiClient {
   }
 
   async deleteStudent(id: string) {
-    const response = await fetch(`${API_BASE_URL}/students/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/api/students/${id}`, {
       method: "DELETE",
       headers: this.getAuthHeaders(),
     })
