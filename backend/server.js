@@ -13,7 +13,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://slot-management-iota.vercel.app",// Replace with your actual frontend domain
-      "https://slot-management-git-main-naveen-raj-vs-projects.vercel.app", 
+      "https://slot-management-git-main-naveen-raj-vs-projects.vercel.app",
+      "https://slot-management-1chftnk0u-naveen-raj-vs-projects.vercel.app" 
       process.env.FRONTEND_URL,
     ],
     credentials: true,
