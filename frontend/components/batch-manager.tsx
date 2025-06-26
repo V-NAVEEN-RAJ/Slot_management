@@ -33,6 +33,8 @@ export default function BatchManager({ course, onDataChange }: BatchManagerProps
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingBatch, setEditingBatch] = useState<Batch | null>(null)
   const [newBatch, setNewBatch] = useState({ name: "", description: "", status: "ongoing" as "ongoing" | "completed" })
+  const [linkBatchId, setLinkBatchId] = useState<string | null>(null)
+  const [copiedBatchId, setCopiedBatchId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchBatches()
@@ -151,38 +153,66 @@ export default function BatchManager({ course, onDataChange }: BatchManagerProps
           <div className="text-center py-8 text-gray-500">No batches found. Add your first batch!</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {batches.map((batch) => (
-              <div
-                key={batch._id}
-                className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer group"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2 flex-1" onClick={() => setSelectedBatch(batch)}>
-                    <Folder className="h-6 w-6 text-green-600" />
-                    <span className="font-medium">{batch.name}</span>
+            {batches.map((batch) => {
+              const registrationLink = `${window.location.origin}/form/${course.year}/${course._id}/${batch._id}`
+              return (
+                <div
+                  key={batch._id}
+                  className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2 flex-1" onClick={() => setSelectedBatch(batch)}>
+                      <Folder className="h-6 w-6 text-green-600" />
+                      <span className="font-medium">{batch.name}</span>
+                    </div>
+                    <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => openEditDialog(batch)} className="p-1 text-gray-400 hover:text-gray-600">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteBatch(batch._id)}
+                        className="p-1 text-gray-400 hover:text-red-600"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => openEditDialog(batch)} className="p-1 text-gray-400 hover:text-gray-600">
-                      <Edit className="h-4 w-4" />
-                    </button>
+                  <p className="text-sm text-gray-600 mb-2">{batch.description}</p>
+                  <span
+                    className={`inline-block px-2 py-1 text-xs rounded-full ${
+                      batch.status === "ongoing" ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    {batch.status}
+                  </span>
+                  <div className="mt-4">
                     <button
-                      onClick={() => handleDeleteBatch(batch._id)}
-                      className="p-1 text-gray-400 hover:text-red-600"
+                      className="w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm"
+                      onClick={() => setLinkBatchId(batch._id === linkBatchId ? null : batch._id)}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      {linkBatchId === batch._id ? "Hide Registration Link" : "Generate Registration Link"}
                     </button>
+                    {linkBatchId === batch._id && (
+                      <div className="mt-2 bg-gray-100 p-2 rounded">
+                        <div className="flex items-center justify-between">
+                          <span className="break-all text-blue-700 font-mono text-xs">{registrationLink}</span>
+                          <button
+                            className="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"
+                            onClick={async () => {
+                              await navigator.clipboard.writeText(registrationLink)
+                              setCopiedBatchId(batch._id)
+                              setTimeout(() => setCopiedBatchId(null), 2000)
+                            }}
+                          >
+                            {copiedBatchId === batch._id ? "Copied!" : "Copy"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 mb-2">{batch.description}</p>
-                <span
-                  className={`inline-block px-2 py-1 text-xs rounded-full ${
-                    batch.status === "ongoing" ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"
-                  }`}
-                >
-                  {batch.status}
-                </span>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>
