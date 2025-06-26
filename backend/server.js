@@ -15,7 +15,7 @@ app.use(
       "https://slot-management-iota.vercel.app",// Replace with your actual frontend domain
       "https://slot-management-git-main-naveen-raj-vs-projects.vercel.app",
       "slot-management-iota.vercel.app",
-      "slot-management-awjo03d1k-naveen-raj-vs-projects.vercel.app",
+      "http://localhost:5173",
       process.env.FRONTEND_URL,
     ],
     credentials: true,
@@ -596,6 +596,55 @@ const initializeAdmin = async () => {
     console.error("❌ Error initializing admin:", error)
   }
 }
+
+// ✅ Route to allow student form submission without login
+app.post("/api/public/register/:yearId/:courseId/:batchId", async (req, res) => {
+  const { yearId, courseId, batchId } = req.params;
+  const {
+    name,
+    college_name,
+    email,
+    department,
+    roll_number,
+    phone_number,
+  } = req.body;
+
+  if (!name || !college_name || !email || !department || !roll_number || !phone_number) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    // Optional: Check for existing student by email or roll number for the same year/course/batch
+    const existingStudent = await Student.findOne({
+      email,
+      roll_number,
+      batchId,
+    });
+
+    if (existingStudent) {
+      return res.status(409).json({ message: "Student already exists for this batch." });
+    }
+
+    const newStudent = new Student({
+      name,
+      college_name,
+      email,
+      department,
+      roll_number,
+      phone_number,
+      fees_paid: false, // Default to pending
+      batchId,
+    });
+
+    await newStudent.save();
+    res.status(201).json({ message: "Student registered successfully." });
+  } catch (error) {
+    console.error("Public registration error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 
 // Health check route
 app.get("/api/health", (req, res) => {
