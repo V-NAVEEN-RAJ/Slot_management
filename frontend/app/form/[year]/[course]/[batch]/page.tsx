@@ -101,6 +101,9 @@ export default function StudentRegistrationForm() {
               {courseInfo.courseName} - {courseInfo.batchName}
             </p>
           )}
+          <p className="mt-2 text-center text-sm text-red-600 font-semibold">
+            Please fill it carefully. This information will appear on the certificate.
+          </p>
         </div>
         <form className="mt-8 space-y-6 bg-white p-8 rounded-lg shadow-md" onSubmit={handleSubmit}>
           <div className="space-y-4">
