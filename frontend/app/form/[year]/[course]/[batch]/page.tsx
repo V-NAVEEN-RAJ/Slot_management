@@ -35,16 +35,21 @@ export default function StudentRegistrationForm() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(`${BACKEND_URL}/api/public/register-student`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          year,
-          courseId: course,
-          batchId: batch,
-        }),
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/api/public/register/${year}/${course}/${batch}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            college_name: formData.collegeName,
+            email: formData.email,
+            department: formData.department,
+            roll_number: formData.rollNumber,
+            phone_number: formData.phoneNumber,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to submit form");
       }
