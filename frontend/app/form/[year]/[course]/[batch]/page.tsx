@@ -21,6 +21,11 @@ export default function StudentRegistrationForm() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
   const [courseInfo, setCourseInfo] = useState<{ courseName: string; batchName: string }>({ courseName: "", batchName: "" });
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailChecking, setEmailChecking] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
   useEffect(() => {
     // Fetch course and batch info for display
@@ -29,6 +34,61 @@ export default function StudentRegistrationForm() {
       .then(data => setCourseInfo(data))
       .catch(console.error);
   }, [year, course, batch]);
+
+  // Name validation: Each word starts with capital, last word is single capital letter
+  function validateName(name: string) {
+    const parts = name.trim().split(/\s+/);
+    if (parts.length < 2) return "Name must include at least first name and initial.";
+    for (let i = 0; i < parts.length - 1; i++) {
+      if (!/^[A-Z][a-zA-Z]*$/.test(parts[i])) {
+        return "Each name part must start with a capital letter.";
+      }
+    }
+    if (!/^[A-Z]$/.test(parts[parts.length - 1])) {
+      return "Last part must be a single capital letter (initial).";
+    }
+    return "";
+  }
+
+  // Stricter email format validation
+  function validateEmailFormat(email: string) {
+    // RFC 5322 Official Standard regex (simplified for practical use)
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!re.test(email)) {
+      return "Enter a valid email address.";
+    }
+    return "";
+  }
+
+  // Email existence check
+  async function checkEmailExists(email: string) {
+    setEmailChecking(true);
+    setEmailError("");
+    setEmailExists(false);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/public/check-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (data.exists) {
+        setEmailError("Email already registered.");
+        setEmailExists(true);
+      }
+    } catch {
+      setEmailError("Could not verify email. Try again.");
+    } finally {
+      setEmailChecking(false);
+    }
+  }
+
+  function validatePhone(phone: string) {
+    if (!/^\d{10}$/.test(phone)) {
+      return "Phone number must be exactly 10 digits.";
+    }
+    return "";
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +134,23 @@ export default function StudentRegistrationForm() {
       ...prev,
       [e.target.name]: e.target.value
     }));
+    if (e.target.name === "name") {
+      setNameError(validateName(e.target.value));
+    }
+    if (e.target.name === "email") {
+      const formatError = validateEmailFormat(e.target.value);
+      setEmailError(formatError);
+      setEmailExists(false);
+    }
+    if (e.target.name === "phoneNumber") {
+      setPhoneError(validatePhone(e.target.value));
+    }
+  };
+
+  const handleEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.value && !validateEmailFormat(e.target.value)) {
+      checkEmailExists(e.target.value);
+    }
   };
 
   if (success) {
@@ -120,6 +197,7 @@ export default function StudentRegistrationForm() {
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
+              {nameError && <p className="text-red-600 text-xs mt-1">{nameError}</p>}
             </div>
             <div>
               <label htmlFor="collegeName" className="block text-sm font-medium text-gray-700">
@@ -146,8 +224,11 @@ export default function StudentRegistrationForm() {
                 required
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleEmailBlur}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
+              {emailChecking && <p className="text-gray-500 text-xs mt-1">Checking email...</p>}
+              {emailError && <p className="text-red-600 text-xs mt-1">{emailError}</p>}
             </div>
             <div>
               <label htmlFor="department" className="block text-sm font-medium text-gray-700">
@@ -190,6 +271,7 @@ export default function StudentRegistrationForm() {
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
+              {phoneError && <p className="text-red-600 text-xs mt-1">{phoneError}</p>}
             </div>
           </div>
           {error && (
@@ -200,7 +282,7 @@ export default function StudentRegistrationForm() {
           <div>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !!nameError || !!emailError || emailExists || !!phoneError}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               {loading ? "Submitting..." : "Submit"}
